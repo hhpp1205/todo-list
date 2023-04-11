@@ -8,6 +8,7 @@ import list.todo.todolist.domain.task.exception.TaskAccessDeniedException;
 import list.todo.todolist.domain.task.exception.TaskNotFoundException;
 import list.todo.todolist.domain.task.model.Task;
 import list.todo.todolist.domain.task.repository.TaskRepository;
+import list.todo.todolist.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +27,7 @@ public class TaskService {
 
     public TaskResponseDto create(Long memberId, Task task) {
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new MemberNotFoundException());
+                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
 
         task.setMember(member);
         taskRepository.save(task);
@@ -41,13 +42,13 @@ public class TaskService {
 
     public TaskResponseDto update(Long memberId, Long taskId, Task updateRequest) {
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new MemberNotFoundException());
+                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
 
         Task task = taskRepository.findById(taskId)
-                .orElseThrow(() -> new TaskNotFoundException());
+                .orElseThrow(() -> new TaskNotFoundException(ErrorCode.TASK_ACCESS_DENIED));
 
         if (member != task.getMember()) {
-            throw new TaskAccessDeniedException();
+            throw new TaskAccessDeniedException(ErrorCode.TASK_ACCESS_DENIED);
         }
 
         task.update(updateRequest);
@@ -62,13 +63,13 @@ public class TaskService {
 
     public void delete(Long memberId, Long taskId) {
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new MemberNotFoundException());
+                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
 
         Task task = taskRepository.findById(taskId)
-                .orElseThrow(() -> new TaskNotFoundException());
+                .orElseThrow(() -> new TaskNotFoundException(ErrorCode.TASK_ACCESS_DENIED));
 
         if (member != task.getMember()) {
-            throw new TaskAccessDeniedException();
+            throw new TaskAccessDeniedException(ErrorCode.TASK_ACCESS_DENIED);
         }
 
         taskRepository.deleteById(taskId);
@@ -76,13 +77,13 @@ public class TaskService {
 
     public TaskResponseDto done(Long memberId, Long taskId) {
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new MemberNotFoundException());
+                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
 
         Task task = taskRepository.findById(taskId)
-                .orElseThrow(() -> new TaskNotFoundException());
+                .orElseThrow(() -> new TaskNotFoundException(ErrorCode.TASK_ACCESS_DENIED));
 
         if (member != task.getMember()) {
-            throw new TaskAccessDeniedException();
+            throw new TaskAccessDeniedException(ErrorCode.TASK_ACCESS_DENIED);
         }
 
         task.updateLastDoneDate(LocalDate.now());

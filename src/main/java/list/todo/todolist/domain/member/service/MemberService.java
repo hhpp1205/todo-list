@@ -6,6 +6,7 @@ import list.todo.todolist.domain.member.exception.LoginFailedException;
 import list.todo.todolist.domain.member.exception.MemberNotFoundException;
 import list.todo.todolist.domain.member.model.Member;
 import list.todo.todolist.domain.member.repository.MemberRepository;
+import list.todo.todolist.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -31,10 +32,10 @@ public class MemberService {
 
     public MemberResponse login(Member member) {
         Member loginMember = memberRepository.findByEmail(member.getEmail())
-                .orElseThrow(() -> new MemberNotFoundException());
+                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
 
         if(!encoder.matches(member.getPassword(), loginMember.getPassword())) {
-            throw new LoginFailedException();
+            throw new LoginFailedException(ErrorCode.LOGIN_FAILED);
         }
 
         return new MemberResponse(loginMember.getMemberId(), loginMember.getEmail(), loginMember.getTaskList());
@@ -42,7 +43,7 @@ public class MemberService {
 
     private void exitEmail(String email) {
         if(memberRepository.existsByEmail(email)) {
-            throw new DuplicateEmailException();
+            throw new DuplicateEmailException(ErrorCode.DUPLICATE_EMAIL);
         }
     }
 }
