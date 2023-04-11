@@ -3,7 +3,7 @@ package list.todo.todolist.domain.task.service;
 import list.todo.todolist.domain.member.exception.MemberNotFoundException;
 import list.todo.todolist.domain.member.model.Member;
 import list.todo.todolist.domain.member.repository.MemberRepository;
-import list.todo.todolist.domain.task.dto.TaskResponse;
+import list.todo.todolist.domain.task.dto.TaskResponseDto;
 import list.todo.todolist.domain.task.exception.TaskAccessDeniedException;
 import list.todo.todolist.domain.task.exception.TaskNotFoundException;
 import list.todo.todolist.domain.task.model.Task;
@@ -24,14 +24,14 @@ public class TaskService {
     private final TaskRepository taskRepository;
     private final MemberRepository memberRepository;
 
-    public TaskResponse create(Long memberId, Task task) {
+    public TaskResponseDto create(Long memberId, Task task) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberNotFoundException());
 
         task.setMember(member);
         taskRepository.save(task);
 
-        return new TaskResponse(
+        return new TaskResponseDto(
                 task.getTaskId(),
                 task.getTitle(),
                 task.getIsDone(),
@@ -39,7 +39,7 @@ public class TaskService {
                 task.getTaskType());
     }
 
-    public TaskResponse update(Long memberId, Long taskId, Task updateRequest) {
+    public TaskResponseDto update(Long memberId, Long taskId, Task updateRequest) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberNotFoundException());
 
@@ -52,7 +52,7 @@ public class TaskService {
 
         task.update(updateRequest);
 
-        return new TaskResponse(
+        return new TaskResponseDto(
                 task.getTaskId(),
                 task.getTitle(),
                 task.getIsDone(),
@@ -74,7 +74,7 @@ public class TaskService {
         taskRepository.deleteById(taskId);
     }
 
-    public TaskResponse done(Long memberId, Long taskId) {
+    public TaskResponseDto done(Long memberId, Long taskId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberNotFoundException());
 
@@ -87,7 +87,7 @@ public class TaskService {
 
         task.updateLastDoneDate(LocalDate.now());
 
-        return new TaskResponse(
+        return new TaskResponseDto(
                 task.getTaskId(),
                 task.getTitle(),
                 task.getIsDone(),
@@ -95,9 +95,9 @@ public class TaskService {
                 task.getTaskType());
     }
 
-    public List<TaskResponse> findAll(Long memberId) {
+    public List<TaskResponseDto> findAll(Long memberId) {
         return taskRepository.findAll(memberId).stream()
-                .map(t -> new TaskResponse(
+                .map(t -> new TaskResponseDto(
                         t.getTaskId(),
                         t.getTitle(),
                         t.getIsDone(),
