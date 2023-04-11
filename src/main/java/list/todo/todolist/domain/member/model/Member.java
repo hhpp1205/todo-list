@@ -2,6 +2,7 @@ package list.todo.todolist.domain.member.model;
 
 import list.todo.todolist.domain.task.model.Task;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -31,6 +32,14 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Task> taskList = new ArrayList<>();
 
+    @Builder
+    public Member(Long memberId, String email, String password, RoleType roleType, List<Task> taskList) {
+        this.memberId = memberId;
+        this.email = email;
+        this.password = password;
+        this.roleType = roleType;
+        this.taskList = taskList;
+    }
 
     @Override
     public boolean equals(Object o) {
