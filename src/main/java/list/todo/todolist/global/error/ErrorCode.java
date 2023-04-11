@@ -8,11 +8,11 @@ public enum ErrorCode {
     //Member
     DUPLICATE_EMAIL(400, "M001", "중복된 이메일입니다."),
     LOGIN_FAILED(400, "M002", "로그인에 실패하였습니다."),
-    MEMBER_NOT_FOUND(400, "M003", "사용자를 찾을 수 없습니다."),
+    MEMBER_NOT_FOUND(204, "M003", "사용자를 찾을 수 없습니다."),
 
     //Task
     TASK_ACCESS_DENIED(403, "T001", "접근 할 수 없는 Task입니다."),
-    TASK_NOT_FOUND(400, "T002", "Task를 찾을 수 없습니다.");
+    TASK_NOT_FOUND(204, "T002", "Task를 찾을 수 없습니다.");
 
 
 
