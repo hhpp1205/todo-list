@@ -33,6 +33,7 @@ public class TaskRequestDto {
         return Task.builder()
                 .title(title)
                 .taskType(type)
+                .isDone(false)
                 .build();
     }
 }

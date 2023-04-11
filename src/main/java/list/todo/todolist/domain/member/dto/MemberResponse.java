@@ -13,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MemberResponse {
+    private Long memberId;
     private String email;
     private List<Task> taskList;
 }
