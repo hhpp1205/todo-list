@@ -1,10 +1,13 @@
 package list.todo.todolist.domain.member.model;
 
+import list.todo.todolist.domain.task.model.Task;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -25,6 +28,8 @@ public class Member {
     @Column(nullable = false)
     private RoleType roleType;
 
+    @OneToMany(mappedBy = "member")
+    private List<Task> taskList = new ArrayList<>();
 
 
     @Override
