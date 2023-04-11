@@ -48,6 +48,23 @@ public class Task {
         this.member = member;
     }
 
+    /**
+     * 비즈니스 로직
+     */
+
+    public void update(Task updateRequest) {
+        this.title = updateRequest.getTitle();
+        this.taskType = updateRequest.getTaskType();
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
+    }
+
+   public void updateLastDoneDate(LocalDate updateDate) {
+       this.lastDoneDate = updateDate;
+   }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

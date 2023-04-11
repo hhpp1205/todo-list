@@ -41,6 +41,14 @@ public class Member {
         this.taskList = taskList;
     }
 
+    /**
+     * 비즈니스 로직
+     */
+
+    public void setEnCodedPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

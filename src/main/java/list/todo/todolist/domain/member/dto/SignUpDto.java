@@ -1,6 +1,7 @@
 package list.todo.todolist.domain.member.dto;
 
 import list.todo.todolist.domain.member.model.Member;
+import list.todo.todolist.domain.member.model.RoleType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,7 @@ public class SignUpDto {
         return Member.builder()
                 .email(email)
                 .password(password)
+                .roleType(RoleType.USER)
                 .build();
     }
 }
