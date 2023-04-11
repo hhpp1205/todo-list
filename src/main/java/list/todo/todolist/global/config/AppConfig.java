@@ -1,4 +1,4 @@
-package list.todo.todolist.config;
+package list.todo.todolist.global.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

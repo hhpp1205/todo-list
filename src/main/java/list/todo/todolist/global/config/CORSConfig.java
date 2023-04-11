@@ -1,4 +1,4 @@
-package list.todo.todolist.config;
+package list.todo.todolist.global.config;
 
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
