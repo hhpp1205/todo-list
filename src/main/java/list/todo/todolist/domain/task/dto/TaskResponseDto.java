@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TaskResponse {
+public class TaskResponseDto {
     private Long taskId;
     private String title;
     private Boolean isDone;
