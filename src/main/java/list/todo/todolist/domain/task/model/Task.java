@@ -65,6 +65,10 @@ public class Task {
        this.lastDoneDate = updateDate;
    }
 
+   public void taskDone() {
+       this.isDone = true;
+   }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
