@@ -87,6 +87,7 @@ public class TaskService {
         }
 
         task.updateLastDoneDate(LocalDate.now());
+        task.taskDone();
 
         return new TaskResponseDto(
                 task.getTaskId(),
