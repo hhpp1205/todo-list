@@ -21,6 +21,10 @@ const Todo = (props) => {
   };
 
   const toggleEditing = () => {
+    if (isEditing) {
+      props.updateTodo({taskId : props.todo.taskId, title : title});
+    }
+
     setIsEditing(!isEditing);
   };
 
@@ -70,31 +74,43 @@ const Todolist = () => {
         body: JSON.stringify(newTodo)
     })
       .then(response => response.json())
-      .then(data => setTodos([...todos, data]));
+      .then(data => {
+        if (data.state)
+        setTodos([...todos, data]);
+      });
   };
 
   const deleteTodo = (taskId) => {
+    fetch(`http://localhost:8080/api/v1/tasks/${taskId}`, {
+      method: 'DELETE'
+    })
+      .then(response => response.json())
+      .then(data => console.log(data));
+
     const newTodos = todos.filter((todo) => todo.taskId != taskId);
     setTodos(newTodos);
   }
 
-  const updateTodo = ({todo}) => {
+  const updateTodo = (todo) => {
+
     const newTodo = {
       taskId : todo.taskId,
-      title : todo.title,
-      isDone : todo.isDone,
-      lastDoneDate : todo.lastDoneDate,
-      taskType : todo.taskType
+      title : todo.title
     }
 
-    setTodos([...todos, newTodo])
+    fetch(`http://localhost:8080/api/v1/tasks/${todo.taskId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newTodo)
+    })
+
   }
 
   return (
     <div>
       <AddTodo addTodo={addTodo}/>
       {todos.map(
-        todo => <Todo key={todo.taskId} todo={todo} deleteTodo={deleteTodo}/>
+        todo => <Todo key={todo.taskId} todo={todo} deleteTodo={deleteTodo} updateTodo={updateTodo}/>
       )}
     </div>
   );
