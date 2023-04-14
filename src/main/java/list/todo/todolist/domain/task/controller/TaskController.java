@@ -16,33 +16,28 @@ public class TaskController {
 
     private final TaskService taskService;
     @PostMapping
-    public TaskResponseDto create(@SessionAttribute("member") Long memberId,
-                                  @RequestBody @Validated TaskRequestDto taskRequestDto) {
-        return taskService.create(memberId, taskRequestDto.toEntity());
+    public TaskResponseDto create(@RequestBody @Validated TaskRequestDto taskRequestDto) {
+        return taskService.create(taskRequestDto.toEntity());
     }
 
     @PutMapping("/{taskId}")
-    public TaskResponseDto update(@SessionAttribute("member") Long memberId,
-                                  @PathVariable Long taskId,
-                                  @RequestBody @Validated TaskRequestDto taskRequestDto) {
-        return taskService.update(memberId, taskId, taskRequestDto.toEntity());
+    public TaskResponseDto update(@PathVariable Long taskId, @RequestBody @Validated TaskRequestDto taskRequestDto) {
+        return taskService.update(taskId, taskRequestDto.toEntity());
     }
 
     @DeleteMapping("/{taskId}")
-    public void delete(@SessionAttribute("member") Long memberId,
-                       @PathVariable Long taskId) {
-        taskService.delete(memberId, taskId);
+    public void delete(@PathVariable Long taskId) {
+        taskService.delete(taskId);
     }
 
     @PutMapping("/{taskId}/done")
-    public TaskResponseDto done(@SessionAttribute("member") Long memberId,
-                                @PathVariable Long taskId) {
-        return taskService.done(memberId, taskId);
+    public TaskResponseDto done(@PathVariable Long taskId) {
+        return taskService.done(taskId);
     }
 
     @GetMapping
-    public List<TaskResponseDto> findAll(@SessionAttribute("member") Long memberId) {
-        return taskService.findAll(memberId);
+    public List<TaskResponseDto> findAll() {
+        return taskService.findAll();
     }
 
 }

@@ -1,6 +1,5 @@
 package list.todo.todolist.domain.task.model;
 
-import list.todo.todolist.domain.member.model.Member;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -34,18 +33,14 @@ public class Task {
     @Column(nullable = false)
     private TaskType taskType;
 
-    @ManyToOne
-    @JoinColumn(name = "member_id")
-    private Member member;
 
     @Builder
-    public Task(Long taskId, String title, Boolean isDone, LocalDate lastDoneDate, TaskType taskType, Member member) {
+    public Task(Long taskId, String title, Boolean isDone, LocalDate lastDoneDate, TaskType taskType) {
         this.taskId = taskId;
         this.title = title;
         this.isDone = isDone;
         this.lastDoneDate = lastDoneDate;
         this.taskType = taskType;
-        this.member = member;
     }
 
     /**
@@ -55,10 +50,6 @@ public class Task {
     public void update(Task updateRequest) {
         this.title = updateRequest.getTitle();
         this.taskType = updateRequest.getTaskType();
-    }
-
-    public void setMember(Member member) {
-        this.member = member;
     }
 
    public void updateLastDoneDate(LocalDate updateDate) {
