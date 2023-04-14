@@ -24,10 +24,9 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public MemberResponse login(@RequestBody @Validated SignInDto signInDto, HttpServletRequest request) {
+    public MemberResponse login(@RequestBody @Validated SignInDto signInDto, HttpSession session) {
         MemberResponse response = memberService.login(signInDto.toEntity());
 
-        HttpSession session = request.getSession(true);
         session.setAttribute("member", response.getMemberId());
 
         return response;

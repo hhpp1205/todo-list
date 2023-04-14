@@ -6,7 +6,7 @@ import lombok.Getter;
 public enum ErrorCode {
 
     //Common
-    INVALID_INPUT_VALUE(400, "C003", "잘못된 입력입니다."),
+    INVALID_INPUT_VALUE(400, "C001", "잘못된 입력입니다."),
 
     //Member
     DUPLICATE_EMAIL(400, "M001", "중복된 이메일입니다."),
