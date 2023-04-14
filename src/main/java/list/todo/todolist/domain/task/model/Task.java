@@ -23,24 +23,14 @@ public class Task {
     @Column(nullable = false)
     private Boolean isDone;
 
-    private LocalDate lastDoneDate; // 마지막으로 Do it 한 날짜
-
-    /**
-     * ED = Every Day(매일)
-     * EW = Every Week(매주)
-     */
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private TaskType taskType;
 
 
     @Builder
-    public Task(Long taskId, String title, Boolean isDone, LocalDate lastDoneDate, TaskType taskType) {
+    public Task(Long taskId, String title, Boolean isDone) {
         this.taskId = taskId;
         this.title = title;
         this.isDone = isDone;
-        this.lastDoneDate = lastDoneDate;
-        this.taskType = taskType;
+
     }
 
     /**
@@ -49,12 +39,7 @@ public class Task {
 
     public void update(Task updateRequest) {
         this.title = updateRequest.getTitle();
-        this.taskType = updateRequest.getTaskType();
     }
-
-   public void updateLastDoneDate(LocalDate updateDate) {
-       this.lastDoneDate = updateDate;
-   }
 
    public void taskDone() {
        this.isDone = true;

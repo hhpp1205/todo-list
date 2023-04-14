@@ -14,25 +14,17 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TaskRequestDto {
-    @NotBlank
+
     private String title;
 
     /**
      * ED, EW
      */
-    @NotBlank
     private String taskType;
 
     public Task toEntity() {
-        TaskType type = TaskType.valueOf(taskType);
-
-        if (type == null) {
-            throw new IllegalArgumentException();
-        }
-
         return Task.builder()
                 .title(title)
-                .taskType(type)
                 .isDone(false)
                 .build();
     }
