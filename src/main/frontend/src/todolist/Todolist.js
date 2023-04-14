@@ -10,7 +10,6 @@ const Todo = (props) => {
 
   useEffect(() => {
     const inputElement = document.getElementById(`input${props.todo.taskId}`);
-    console.log(inputElement);
     if(inputElement) {
       inputElement.disabled = !isEditing;
     }
@@ -23,13 +22,19 @@ const Todo = (props) => {
 
   const toggleEditing = () => {
     setIsEditing(!isEditing);
-    console.log(isEditing);
   };
 
   return(
     <div className='todo-item'>
       <input type='checkbox' checked={isChecked} onChange={handleToggle} />
-      <input id={`input${props.todo.taskId}`} type='text' value={title} onChange={(e) => setTitle(e.target.value)} disabled={!isEditing} />
+      <input
+        id={`input${props.todo.taskId}`}
+        className={`todo-item ${!isChecked ? 'none' : 'line-through'} ${isEditing ? 'todo-input-enable' : 'todo-input-disable'}`}
+        type='text'
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        disabled={!isEditing}
+      />
       <button onClick={() => toggleEditing()}>{isEditing ? "완료" : "수정"}</button>
       <button onClick={() => props.deleteTodo(props.todo.taskId)}>삭제</button>
     </div>
@@ -45,6 +50,9 @@ const Todolist = () => {
   ]);
 
   const addTodo = (title) => {
+    if(!title) {
+      return;
+    }
     const newTodo = {
       taskId : todos.length + 1,
       title : title,

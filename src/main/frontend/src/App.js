@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Head from './global/head/Head';
 import WiseSaying from './wisesaying/WiseSaying';
 import Todolist from "./todolist/Todolist";
-import AddTodo from "./addtodo/AddTodo";
+
 
 function App() {
 
@@ -18,11 +18,9 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
         <Head />
         <WiseSaying/>
         <Todolist/>
-      </header>
     </div>
   );
 }

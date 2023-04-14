@@ -1,12 +1,16 @@
 import React, {useState} from "react";
+import './AddTodo.css'
 
 const AddTodo = ({addTodo}) =>  {
   const [title, setTitle] = useState("");
 
   return (
-    <div>
+    <div id='addTodo'>
       <input type="text" value={title} onChange={(e) => setTitle(e.target.value)}/>
-      <button onClick={() => addTodo(title)}>할일 추가</button>
+      <button onClick={() => {
+        addTodo(title);
+        setTitle("");
+      }}>할일 추가</button>
     </div>
   )
 }
