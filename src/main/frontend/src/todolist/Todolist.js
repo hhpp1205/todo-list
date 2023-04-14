@@ -12,8 +12,10 @@ const Todo = (props) => {
 
   return(
     <div className='todo-item'>
-      <input type='checkbox' checked={isChecked} onChange={handleToggle}/>
+      <input type='checkbox' checked={isChecked} onChange={() => handleToggle}/>
       <input type='text' value={props.todo.title}/>
+      <button>수정</button>
+      <button onClick={() => props.deleteTodo(props.todo.taskId)}>삭제</button>
     </div>
   );
 }
@@ -38,11 +40,16 @@ const Todolist = () => {
     setTodos([...todos, newTodo]);
   };
 
+  const deleteTodo = (taskId) => {
+    const newTodos = todos.filter((todo) => todo.taskId != taskId);
+    setTodos(newTodos);
+  }
+
   return (
     <div>
       <AddTodo addTodo={addTodo}/>
       {todos.map(
-        todo => <Todo todo={todo}/>
+        todo => <Todo todo={todo} deleteTodo={deleteTodo}/>
       )}
     </div>
   );
