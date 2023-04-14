@@ -85,7 +85,7 @@ const Todolist = () => {
     <div>
       <AddTodo addTodo={addTodo}/>
       {todos.map(
-        todo => <Todo todo={todo} deleteTodo={deleteTodo}/>
+        todo => <Todo key={todo.taskId} todo={todo} deleteTodo={deleteTodo}/>
       )}
     </div>
   );
