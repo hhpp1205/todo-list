@@ -43,11 +43,15 @@ const Todo = (props) => {
 
 const Todolist = () => {
 
-  const [todos, setTodos] = useState([
-      {taskId : 1, title : '오운완', isDone : true, lastDoneDate : null, taskType : 'ED'},
-      {taskId : 2, title : '리액트 투두리스트 만들기', isDone : false, lastDoneDate : null, taskType : 'ED'},
-      {taskId : 3, title : 'CS 공부', isDone : false, lastDoneDate : null, taskType : 'EW'}
-  ]);
+  const [todos, setTodos] = useState([]);
+
+  useEffect(() => {
+     fetch('http://localhost:8080/api/v1/tasks')
+      .then(response => response.json())
+      .then(data => {
+        setTodos(data);
+      })
+    },[]);
 
   const addTodo = (title) => {
     if(!title) {
