@@ -17,6 +17,8 @@ const Todo = (props) => {
 
 
   const handleToggle = () => {
+    props.isDoneToggle(props.todo.taskId, isChecked);
+
     setIsChecked(!isChecked);
   };
 
@@ -63,7 +65,6 @@ const Todolist = () => {
     }
 
     const newTodo = {
-      taskId : todos.length + 1,
       title : title,
       isDone : false
     }
@@ -75,7 +76,6 @@ const Todolist = () => {
     })
       .then(response => response.json())
       .then(data => {
-        if (data.state)
         setTodos([...todos, data]);
       });
   };
@@ -84,15 +84,12 @@ const Todolist = () => {
     fetch(`http://localhost:8080/api/v1/tasks/${taskId}`, {
       method: 'DELETE'
     })
-      .then(response => response.json())
-      .then(data => console.log(data));
 
     const newTodos = todos.filter((todo) => todo.taskId != taskId);
     setTodos(newTodos);
   }
 
   const updateTodo = (todo) => {
-
     const newTodo = {
       taskId : todo.taskId,
       title : todo.title
@@ -103,14 +100,26 @@ const Todolist = () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newTodo)
     })
+  }
 
+  const isDoneToggle = (taskId, isChecked) => {
+    fetch(`http://localhost:8080/api/v1/tasks/${taskId}/${isChecked ? 'cancel' : 'done'}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json'}
+    })
   }
 
   return (
     <div>
       <AddTodo addTodo={addTodo}/>
       {todos.map(
-        todo => <Todo key={todo.taskId} todo={todo} deleteTodo={deleteTodo} updateTodo={updateTodo}/>
+        todo => <Todo
+          key={todo.taskId}
+          todo={todo}
+          deleteTodo={deleteTodo}
+          updateTodo={updateTodo}
+          isDoneToggle={isDoneToggle}
+        />
       )}
     </div>
   );
