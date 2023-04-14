@@ -1,0 +1,10 @@
+.input {
+    width: 80%;
+    margin: 10% auto 0 auto;
+}
+
+#login_button {
+    width: 80%;
+    margin: 10% auto;
+    display: block;
+}

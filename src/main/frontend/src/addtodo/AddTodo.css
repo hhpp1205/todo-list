@@ -1,0 +1,31 @@
+#addTodo {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+}
+
+#addTodo input {
+    flex: 1;
+    margin-right: 10px;
+    padding: 5px;
+    border-radius: 3px;
+    border: none;
+    outline: none;
+}
+
+#addTodo button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    border-radius: 3px;
+    cursor: pointer;
+}
