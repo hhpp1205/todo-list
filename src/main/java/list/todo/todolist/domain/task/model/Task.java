@@ -45,6 +45,10 @@ public class Task {
        this.isDone = true;
    }
 
+    public void cancel() {
+        this.isDone = false;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -59,4 +63,6 @@ public class Task {
     public int hashCode() {
         return taskId.hashCode();
     }
+
+
 }

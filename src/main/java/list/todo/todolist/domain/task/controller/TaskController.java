@@ -35,6 +35,11 @@ public class TaskController {
         return taskService.done(taskId);
     }
 
+    @PutMapping("/{taskId}/cancel")
+    public TaskResponseDto cancel(@PathVariable Long taskId) {
+        return taskService.cancel(taskId);
+    }
+
     @GetMapping
     public List<TaskResponseDto> findAll() {
         return taskService.findAll();

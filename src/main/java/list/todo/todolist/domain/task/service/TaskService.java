@@ -64,4 +64,16 @@ public class TaskService {
                         t.getTitle(),
                         t.getIsDone())).toList();
     }
+
+    public TaskResponseDto cancel(Long taskId) {
+        Task task = taskRepository.findById(taskId)
+            .orElseThrow(() -> new TaskNotFoundException(ErrorCode.TASK_ACCESS_DENIED));
+
+        task.cancel();
+
+        return new TaskResponseDto(
+                task.getTaskId(),
+                task.getTitle(),
+                task.getIsDone());
+    }
 }
