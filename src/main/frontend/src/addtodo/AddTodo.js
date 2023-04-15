@@ -12,7 +12,9 @@ const AddTodo = (props) =>  {
         onChange={(e) => setTitle(e.target.value)}
         onKeyDown={(e) => {
           props.enterKeyPress(e, title)
-          setTitle("");
+          if(e.key === 'Enter') {
+            setTitle("");
+          }
         }}
       />
       <button onClick={() => {

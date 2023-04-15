@@ -91,7 +91,7 @@ const Todolist = () => {
       method: 'DELETE'
     })
 
-    const newTodos = todos.filter((todo) => todo.taskId != taskId);
+    const newTodos = todos.filter((todo) => todo.taskId !== taskId);
     setTodos(newTodos);
   }
 
