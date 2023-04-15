@@ -80,6 +80,12 @@ const Todolist = () => {
       });
   };
 
+  const enterKeyPress = (e, title) => {
+    if(e.key === 'Enter') {
+      addTodo(title);
+    }
+  }
+
   const deleteTodo = (taskId) => {
     fetch(`http://localhost:8080/api/v1/tasks/${taskId}`, {
       method: 'DELETE'
@@ -111,7 +117,7 @@ const Todolist = () => {
 
   return (
     <div>
-      <AddTodo addTodo={addTodo}/>
+      <AddTodo addTodo={addTodo} enterKeyPress={enterKeyPress} />
       {todos.map(
         todo => <Todo
           key={todo.taskId}

@@ -1,14 +1,22 @@
 import React, {useState} from "react";
 import './AddTodo.css'
 
-const AddTodo = ({addTodo}) =>  {
+const AddTodo = (props) =>  {
   const [title, setTitle] = useState("");
 
   return (
     <div id='addTodo'>
-      <input type="text" value={title} onChange={(e) => setTitle(e.target.value)}/>
+      <input
+        type="text"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        onKeyDown={(e) => {
+          props.enterKeyPress(e, title)
+          setTitle("");
+        }}
+      />
       <button onClick={() => {
-        addTodo(title);
+        props.addTodo(title);
         setTitle("");
       }}>할일 추가</button>
     </div>
