@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.List;
 
 
@@ -27,9 +26,7 @@ public class TaskService {
         return new TaskResponseDto(
                 task.getTaskId(),
                 task.getTitle(),
-                task.getIsDone(),
-                task.getLastDoneDate(),
-                task.getTaskType());
+                task.getIsDone());
     }
 
     public TaskResponseDto update(Long taskId, Task updateRequest) {
@@ -41,9 +38,7 @@ public class TaskService {
         return new TaskResponseDto(
                 task.getTaskId(),
                 task.getTitle(),
-                task.getIsDone(),
-                task.getLastDoneDate(),
-                task.getTaskType());
+                task.getIsDone());
     }
 
     public void delete(Long taskId) {
@@ -54,15 +49,12 @@ public class TaskService {
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new TaskNotFoundException(ErrorCode.TASK_ACCESS_DENIED));
 
-        task.updateLastDoneDate(LocalDate.now());
         task.taskDone();
 
         return new TaskResponseDto(
                 task.getTaskId(),
                 task.getTitle(),
-                task.getIsDone(),
-                task.getLastDoneDate(),
-                task.getTaskType());
+                task.getIsDone());
     }
 
     public List<TaskResponseDto> findAll() {
@@ -70,8 +62,18 @@ public class TaskService {
                 .map(t -> new TaskResponseDto(
                         t.getTaskId(),
                         t.getTitle(),
-                        t.getIsDone(),
-                        t.getLastDoneDate(),
-                        t.getTaskType())).toList();
+                        t.getIsDone())).toList();
+    }
+
+    public TaskResponseDto cancel(Long taskId) {
+        Task task = taskRepository.findById(taskId)
+            .orElseThrow(() -> new TaskNotFoundException(ErrorCode.TASK_ACCESS_DENIED));
+
+        task.cancel();
+
+        return new TaskResponseDto(
+                task.getTaskId(),
+                task.getTitle(),
+                task.getIsDone());
     }
 }

@@ -16,7 +16,5 @@ public class TaskResponseDto {
     private Long taskId;
     private String title;
     private Boolean isDone;
-    private LocalDate lastDoneDate;
-    private TaskType taskType;
 
 }

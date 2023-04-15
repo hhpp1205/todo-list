@@ -17,10 +17,16 @@ const Todo = (props) => {
 
 
   const handleToggle = () => {
+    props.isDoneToggle(props.todo.taskId, isChecked);
+
     setIsChecked(!isChecked);
   };
 
   const toggleEditing = () => {
+    if (isEditing) {
+      props.updateTodo({taskId : props.todo.taskId, title : title});
+    }
+
     setIsEditing(!isEditing);
   };
 
@@ -43,49 +49,83 @@ const Todo = (props) => {
 
 const Todolist = () => {
 
-  const [todos, setTodos] = useState([
-      {taskId : 1, title : '오운완', isDone : true, lastDoneDate : null, taskType : 'ED'},
-      {taskId : 2, title : '리액트 투두리스트 만들기', isDone : false, lastDoneDate : null, taskType : 'ED'},
-      {taskId : 3, title : 'CS 공부', isDone : false, lastDoneDate : null, taskType : 'EW'}
-  ]);
+  const [todos, setTodos] = useState([]);
+
+  useEffect(() => {
+     fetch('http://localhost:8080/api/v1/tasks')
+      .then(response => response.json())
+      .then(data => {
+        setTodos(data);
+      })
+    },[]);
 
   const addTodo = (title) => {
     if(!title) {
       return;
     }
+
     const newTodo = {
-      taskId : todos.length + 1,
       title : title,
-      isDone : false,
-      lastDoneDate : null,
-      taskType : null
+      isDone : false
     }
 
-    setTodos([...todos, newTodo]);
+    fetch('http://localhost:8080/api/v1/tasks', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newTodo)
+    })
+      .then(response => response.json())
+      .then(data => {
+        setTodos([...todos, data]);
+      });
   };
 
+  const enterKeyPress = (e, title) => {
+    if(e.key === 'Enter') {
+      addTodo(title);
+    }
+  }
+
   const deleteTodo = (taskId) => {
+    fetch(`http://localhost:8080/api/v1/tasks/${taskId}`, {
+      method: 'DELETE'
+    })
+
     const newTodos = todos.filter((todo) => todo.taskId != taskId);
     setTodos(newTodos);
   }
 
-  const updateTodo = ({todo}) => {
+  const updateTodo = (todo) => {
     const newTodo = {
       taskId : todo.taskId,
-      title : todo.title,
-      isDone : todo.isDone,
-      lastDoneDate : todo.lastDoneDate,
-      taskType : todo.taskType
+      title : todo.title
     }
 
-    setTodos([...todos, newTodo])
+    fetch(`http://localhost:8080/api/v1/tasks/${todo.taskId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newTodo)
+    })
+  }
+
+  const isDoneToggle = (taskId, isChecked) => {
+    fetch(`http://localhost:8080/api/v1/tasks/${taskId}/${isChecked ? 'cancel' : 'done'}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json'}
+    })
   }
 
   return (
     <div>
-      <AddTodo addTodo={addTodo}/>
+      <AddTodo addTodo={addTodo} enterKeyPress={enterKeyPress} />
       {todos.map(
-        todo => <Todo key={todo.taskId} todo={todo} deleteTodo={deleteTodo}/>
+        todo => <Todo
+          key={todo.taskId}
+          todo={todo}
+          deleteTodo={deleteTodo}
+          updateTodo={updateTodo}
+          isDoneToggle={isDoneToggle}
+        />
       )}
     </div>
   );
