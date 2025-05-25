@@ -1,21 +1,21 @@
 import { Todo } from "../types";
 
 type TodoProps = {
-    todoObject: Todo;
+    todoItem: Todo;
     onToggle: (id: number) => void;
     onRemove: (id: number) => void;
 };
 
-const TodoObject = ({todoObject, onToggle, onRemove}: TodoProps) => {
+const TodoItem = ({todoItem, onToggle, onRemove}: TodoProps) => {
     return (
         <div>
-            <input type={"checkbox"} checked={todoObject.checked} onChange={() => onToggle(todoObject.id)}/>
-            <span style={{textDecoration: todoObject.checked ? 'line-through' : 'none'}}>
-                {todoObject.text}
+            <input type={"checkbox"} checked={todoItem.checked} onChange={() => onToggle(todoItem.id)}/>
+            <span style={{textDecoration: todoItem.checked ? 'line-through' : 'none'}}>
+                {todoItem.text}
             </span>
-            <button onClick={() => onRemove(todoObject.id)}>삭제</button>
+            <button onClick={() => onRemove(todoItem.id)}>삭제</button>
         </div>
     )
 }
 
-export default TodoObject;
+export default TodoItem;
